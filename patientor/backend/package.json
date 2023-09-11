@@ -2,12 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/src/index.js",
   "scripts": {
     "build": "tsc",
     "tsc": "tsc",
-    "start:dev": "ts-node-dev index.ts",
-    "start:prod": "node build/index.js",
+    "start:dev": "ts-node-dev src/index.ts",
+    "start:prod": "node build/src/index.js",
     "lint": "eslint --ext .ts .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
