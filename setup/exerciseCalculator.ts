@@ -16,7 +16,7 @@ interface CalculateExerciseValues {
 const parseArguments = (args: string[]): CalculateExerciseValues => {
   if (args.length < 4) throw new Error('Not enough arguments')
 
-  const [bin, sourcePath, t, ...d] = args
+  const [, , t, ...d] = args
 
   if(isNaN(Number(t))) throw new Error(`${t} is not a valid target value`)
 

@@ -3,10 +3,10 @@ interface CalculateBmiValues {
   weight: number
 }
 
-const parseArguments = (args: string[]): CalculateBmiValues => {
+const parseBmiArguments = (args: string[]): CalculateBmiValues => {
   if (args.length < 4) throw new Error('Not enough arguments')
 
-  const [bin, sourcePath, h, w] = args
+  const [, , h, w] = args
 
   if(isNaN(Number(h))) throw new Error(`${h} is not a valid height value`)
   if(isNaN(Number(w))) throw new Error(`${w} is not a valid weight value`)
@@ -46,7 +46,7 @@ const calculateBmi = (height: number, weight: number): string => {
 }
 
 try {
-  const { height, weight } = parseArguments(process.argv)
+  const { height, weight } = parseBmiArguments(process.argv)
 
   console.log(calculateBmi(height, weight))
 } catch (error: unknown) {
@@ -58,3 +58,5 @@ try {
 
   console.log(errorMessage);
 }
+
+export default calculateBmi
