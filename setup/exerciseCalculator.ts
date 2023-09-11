@@ -14,29 +14,29 @@ interface CalculateExerciseValues {
 }
 
 const parseArguments = (args: string[]): CalculateExerciseValues => {
-  if (args.length < 4) throw new Error('Not enough arguments')
+  if (args.length < 4) throw new Error('Not enough arguments');
 
-  const [, , t, ...d] = args
+  const [, , t, ...d] = args;
 
-  if(isNaN(Number(t))) throw new Error(`${t} is not a valid target value`)
+  if(isNaN(Number(t))) throw new Error(`${t} is not a valid target value`);
 
   const days = d.map((day) => {
-    if(isNaN(Number(day))) throw new Error(`${day} is not a valid value`)
-    return Number(day)
-  })
+    if(isNaN(Number(day))) throw new Error(`${day} is not a valid value`);
+    return Number(day);
+  });
 
   return {
     days: days,
     target: Number(t)
-  }
-}
+  };
+};
 
 const calculateExercises = (days: Array<number>, target: number): Result => {
   const average = days.reduce((a, c) => a + c, 0) / days.length;
 
-  const rating = average >= target ? 3 : average > target / 2 ? 2 : 1
+  const rating = average >= target ? 3 : average > target / 2 ? 2 : 1;
 
-  const ratingStrings = ["Try harder next time", "Not too bad but could be better", "Well done"]
+  const ratingStrings = ["Try harder next time", "Not too bad but could be better", "Well done"];
 
   const result = {
     periodLength: days.length,
@@ -46,17 +46,17 @@ const calculateExercises = (days: Array<number>, target: number): Result => {
     ratingDescription: ratingStrings[rating-1],
     target: target,
     average: average
-  }
+  };
 
-  return result
-}
+  return result;
+};
 
 try {
-  const {target, days} = parseArguments(process.argv)
+  const {target, days} = parseArguments(process.argv);
 
-  console.log(calculateExercises(days, target))
+  console.log(calculateExercises(days, target));
 } catch (error: unknown) {
-  let errorMessage = 'Something bad happened.'
+  let errorMessage = 'Something bad happened.';
 
   if (error instanceof Error) {
     errorMessage += ' Error: ' + error.message;
@@ -64,3 +64,5 @@ try {
 
   console.log(errorMessage);
 }
+
+export default calculateExercises;
