@@ -1,7 +1,10 @@
-import diagnosesData from '../../../data/diagnoses';
+import diagnosesData from '../../../data/diagnoses.json';
+import { Diagnosis } from './diagnoses';
+
+const data: Diagnosis[] = diagnosesData.data;
 
 export const getAll = () => {
-  return diagnosesData;
+  return data;
 };
 
 export default { getAll };
