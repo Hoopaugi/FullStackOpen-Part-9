@@ -6,9 +6,6 @@ const router = express.Router();
 
 router.get('/', patientsControllers.getAll);
 router.get('/:id', patientsControllers.findById);
-
-router.post('/', (_req, res) => {
-  res.send('Saving a patient!');
-});
+router.post('/', patientsControllers.create);
 
 export default router;
