@@ -13,4 +13,8 @@ export const getAll = (): PatientData[] => {
   return data;
 };
 
-export default { getAll, getAllNonSensitive };
+export const findById = (id: string): PatientData | undefined => {
+  return data.find(e => e.id === id);
+};
+
+export default { getAll, getAllNonSensitive, findById };
