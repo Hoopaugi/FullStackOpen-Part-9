@@ -1,6 +1,7 @@
 {
   "eslint.workingDirectories": [
     "setup",
-    "patientor/backend"
+    "patientor/backend",
+    "courses"
   ]
 }
