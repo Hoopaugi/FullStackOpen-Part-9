@@ -2,14 +2,19 @@ import { v1 as uuid } from 'uuid';
 
 import patientData from '../../../data/patients.json';
 import { PatientData, NonSensitivePatientData, NewPatientData } from './patients.types';
-import { toNewPatient } from './patients.utils';
+import { parsePatient } from './patients.utils';
 
 const patients: PatientData[] = patientData.data.map(obj => {
-  const patient = toNewPatient(obj) as PatientData;
+  try {
+    const patient = parsePatient(obj);
 
-  patient.id = obj.id;
+    return patient;
+  } catch (error) {
+    console.log(error);
+    console.log(obj);
 
-  return patient;
+    throw error;
+  }
 });
 
 export const getAllNonSensitive = (): NonSensitivePatientData[] => {
