@@ -10,3 +10,9 @@ export interface PatientData {
 export type NonSensitivePatientData = Omit<PatientData, 'ssn'>;
 
 export type NewPatientData = Omit<PatientData, 'id'>;
+
+export enum Gender {
+  Male = 'male',
+  Female = 'female',
+  Other = 'other'
+}
