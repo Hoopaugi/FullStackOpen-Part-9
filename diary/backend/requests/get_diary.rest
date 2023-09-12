@@ -1,1 +1,1 @@
-GET http://localhost:5000/api/diaries/4
+GET http://localhost:5000/api/diaries/6
