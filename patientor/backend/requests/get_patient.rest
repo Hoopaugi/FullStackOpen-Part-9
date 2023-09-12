@@ -1,1 +1,1 @@
-GET http://localhost:5000/api/patients/102a4860-50a0-11ee-a87a-f5c1e4cfedb1
+GET http://localhost:5000/api/patients/d2773336-f723-11e9-8f0b-362b9e155667

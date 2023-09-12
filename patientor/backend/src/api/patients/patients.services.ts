@@ -33,7 +33,8 @@ export const findById = (id: string): PatientData | undefined => {
 export const create = (patient: NewPatientData): PatientData => {
   const newPatient = {
     id: uuid(),
-    ...patient
+    ...patient,
+    entries: []
   };
 
   patients.push(newPatient);
