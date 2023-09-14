@@ -48,6 +48,10 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
   const [dischargeDate, setDischargeDate] = useState('');
   const [criteria, setCriteria] = useState('');
 
+  const [employerName, setEmployerName] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
   useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
 
@@ -121,6 +125,23 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
         criteria
       },
       type: 'Hospital'
+    });
+  };
+
+  const addOccupationalHealthcareEntry = (event: SyntheticEvent) => {
+    event.preventDefault();
+
+    onSubmit({
+      description,
+      date,
+      specialist,
+      diagnosisCodes,
+      employerName,
+      sickLeave: {
+        startDate,
+        endDate
+      },
+      type: 'OccupationalHealthcare'
     });
   };
 
@@ -333,7 +354,109 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
       )
     case 'OccupationalHealthcare':
       return (
-        <></>
+        <div>
+        <form onSubmit={addOccupationalHealthcareEntry}>
+        <Select
+            label="Type"
+            fullWidth
+            value={type}
+            onChange={onTypeChange}
+          >
+          {typeOptions.map(option =>
+            <MenuItem
+              key={option.label}
+              value={option.value}
+            >
+              {option.label
+            }</MenuItem>
+          )}
+          </Select>
+          <TextField
+            label="description"
+            fullWidth 
+            value={description}
+            onChange={({ target }) => setDescription(target.value)}
+          />
+          <TextField
+            label="Date"
+            type="date"
+            fullWidth
+            value={date}
+            onChange={({ target }) => setDate(target.value)}
+          />
+          <TextField
+            label="Specialist"
+            fullWidth
+            value={specialist}
+            onChange={({ target }) => setSpecialist(target.value)}
+          />
+          <InputLabel id="diagnosis-codes-label">Diagnoses</InputLabel>
+          <Select
+            labelId="diagnosis-codes-label"
+            id="diagnosis-codes"
+            label="Diagnoses"
+            multiple
+            fullWidth
+            value={diagnosisCodes}
+            onChange={onDiagnosisCodesChange}
+            input={<OutlinedInput label="Tag" />}
+            renderValue={(selected) => selected.join(', ')}
+          >
+          {diagnoses.map((diagnosis) => (
+            <MenuItem key={diagnosis.code} value={diagnosis.code}>
+              <Checkbox checked={diagnosisCodes.indexOf(diagnosis.code) > -1} />
+              <ListItemText primary={diagnosis.code} />
+            </MenuItem>
+          ))}
+          </Select>
+          <TextField
+            label="Employer"
+            fullWidth
+            value={employerName}
+            onChange={({ target }) => setEmployerName(target.value)}
+          />
+          <InputLabel>Sickleave</InputLabel>
+          <TextField
+            label="Start Date"
+            type="date"
+            fullWidth
+            value={startDate}
+            onChange={({ target }) => setStartDate(target.value)}
+          />
+          <TextField
+            label="End Date"
+            type="date"
+            fullWidth
+            value={endDate}
+            onChange={({ target }) => setEndDate(target.value)}
+          />
+  
+          <Grid>
+            <Grid item>
+              <Button
+                color="secondary"
+                variant="contained"
+                style={{ float: "left" }}
+                type="button"
+                onClick={onCancel}
+              >
+                Cancel
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                style={{
+                  float: "right",
+                }}
+                type="submit"
+                variant="contained"
+              >
+                Add
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
       )
   }
 
