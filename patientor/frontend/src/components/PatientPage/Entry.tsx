@@ -1,5 +1,8 @@
 import { Entry as IEntry } from "../../types"
-import Diagnosis from "./Diagnosis"
+import HealthCheckEntry from "./HealthCheckEntry"
+import HospitalEntry from "./HospitalEntry"
+import OccupationalHealthcareEntry from "./OccupationalHealthcareEntry"
+import { assertNever } from "../../utils"
 
 interface EntryProps {
   entry: IEntry
@@ -7,15 +10,23 @@ interface EntryProps {
 
 const Entry = (props: EntryProps) => {
   const entry = props.entry
-  const codes = entry.diagnosisCodes ? entry.diagnosisCodes : []
-  return (
-    <>
-      <p>{entry.date} <i>{entry.description}</i></p>
-      {
-        codes.map(code => <Diagnosis key={code} code={code} />)
-      }
-    </>
-  )
+  
+  switch(entry.type) {
+    case 'HealthCheck':
+      return (
+        <HealthCheckEntry entry={entry} />
+      )
+    case 'Hospital':
+      return (
+        <HospitalEntry entry={entry} />
+      )
+    case 'OccupationalHealthcare':
+      return (
+        <OccupationalHealthcareEntry entry={entry} />
+      )
+    default:
+      return assertNever(entry)
+  }
 }
 
 export default Entry
