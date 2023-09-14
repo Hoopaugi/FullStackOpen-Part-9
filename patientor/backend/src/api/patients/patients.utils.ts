@@ -200,12 +200,31 @@ const parseEntry = (obj: unknown): Entry => {
   }
 };
 
+const parseType = (obj: unknown) : string => {
+  if(!obj || !isString(obj)) {
+    throw new Error('Incorrect or missing type');
+  }
+
+  const entryTypes = ["Hospital", "OccupationalHealthcare", "HealthCheck"];
+
+  if(!entryTypes.includes(obj)) {
+    throw new Error('Invalid entry type');
+  }
+
+  return obj;
+};
+
 const parseNewEntry = (obj: unknown): NewEntry => {
   if(!obj || !isObject(obj)) {
     throw new Error('Incorrect or missing entry');
   }
 
   const entry = obj as NewEntry;
+  // Dumb hack
+  let type = parseType(entry.type);
+  if (!type) {
+    type = '';
+  }
 
   const e = {
     description: parseDescription(getProp(entry, 'description')),
@@ -240,6 +259,8 @@ const parseNewEntry = (obj: unknown): NewEntry => {
       };
 
       return occupationalHealthcareEntry as NewEntry;
+    default:
+      return assertNever(entry);
   }
 };
 
