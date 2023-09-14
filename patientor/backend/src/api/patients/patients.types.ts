@@ -9,10 +9,10 @@ interface BaseEntry {
 }
 
 export enum HealthCheckRating {
-  "healthy" = 0,
-  "lowRisk" = 1,
-  "highRisk" = 2,
-  "criticalRisk" = 3
+  Healthy = 0,
+  LowRisk = 1,
+  HighRisk = 2,
+  CriticalRisk = 3
 }
 
 export interface HealthCheckEntry extends BaseEntry {
