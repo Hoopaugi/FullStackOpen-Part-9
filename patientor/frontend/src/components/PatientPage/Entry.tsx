@@ -1,4 +1,5 @@
 import { Entry as IEntry } from "../../types"
+import Diagnosis from "./Diagnosis"
 
 interface EntryProps {
   entry: IEntry
@@ -11,7 +12,7 @@ const Entry = (props: EntryProps) => {
     <>
       <p>{entry.date} <i>{entry.description}</i></p>
       {
-        codes.map(code => <li>{code}</li>)
+        codes.map(code => <Diagnosis key={code} code={code} />)
       }
     </>
   )

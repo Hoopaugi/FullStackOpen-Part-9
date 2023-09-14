@@ -12,7 +12,7 @@ const Entries = (props: EntriesProps) => {
     <>
       <h3>entries</h3>
       {
-        entries.map(entry => <Entry entry={entry} />)
+        entries.map(entry => <Entry key={entry.id} entry={entry} />)
       }
     </>
   )
