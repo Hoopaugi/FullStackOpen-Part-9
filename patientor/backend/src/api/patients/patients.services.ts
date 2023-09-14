@@ -1,7 +1,7 @@
 import { v1 as uuid } from 'uuid';
 
 import patientData from '../../../data/patients.json';
-import { PatientData, NonSensitivePatientData, NewPatientData } from './patients.types';
+import { PatientData, NonSensitivePatientData, NewPatientData, NewEntry, Entry } from './patients.types';
 import { parsePatient } from './patients.utils';
 
 const patients: PatientData[] = patientData.data.map(obj => {
@@ -47,4 +47,21 @@ export const create = (patient: NewPatientData): PatientData => {
   return newPatient;
 };
 
-export default { getAll, getAllNonSensitive, findById, create };
+export const createEntry = (id: string, entry: NewEntry): Entry | undefined => {
+  const newEntry = {
+    id: uuid(),
+    ...entry
+  } as Entry;
+
+  const patient = patients.find(patient => patient.id === id);
+
+  if (!patient) {
+    throw new Error(`No patient with ID ${id} found`);
+  }
+
+  patient.entries.push(newEntry);
+
+  return newEntry;
+};
+
+export default { getAll, getAllNonSensitive, findById, create, createEntry };

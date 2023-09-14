@@ -12,7 +12,7 @@ const HospitalEntry = (props: HospitalEntryProps) => {
     <>
       <p>{entry.date} <b>Hospital Visit</b></p>
       <i>{entry.description}</i>
-      <p>Discharged {entry.discharge.date} - {entry.discharge.criteria}</p>
+      <p>Discharged {entry.discharge.date} {entry.discharge.criteria}</p>
       <p>Diagnose by {entry.specialist}</p>
       {
         codes.map(code => <Diagnosis key={code} code={code} />)

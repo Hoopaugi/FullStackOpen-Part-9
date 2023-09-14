@@ -1,5 +1,5 @@
 import { isString, isObject, getProp, isStringArray, isObjectArray, isNumber, assertNever } from "../../utils";
-import { NewPatientData, PatientData, Gender, Entry, HealthCheckRating, Discharge, SickLeave } from "./patients.types";
+import { NewPatientData, PatientData, Gender, Entry, HealthCheckRating, Discharge, SickLeave, NewEntry } from "./patients.types";
 
 export const parseId = (id: unknown): string => {
   if (!id || !isString(id)) {
@@ -200,6 +200,49 @@ const parseEntry = (obj: unknown): Entry => {
   }
 };
 
+const parseNewEntry = (obj: unknown): NewEntry => {
+  if(!obj || !isObject(obj)) {
+    throw new Error('Incorrect or missing entry');
+  }
+
+  const entry = obj as NewEntry;
+
+  const e = {
+    description: parseDescription(getProp(entry, 'description')),
+    date: parseDate(getProp(entry, 'date')),
+    specialist: parseSpecialist(getProp(entry, 'specialist')),
+    diagnosisCodes: parseDiagnosisCodes(getProp(entry, 'diagnosisCodes', true))
+  };
+
+  switch(entry.type) {
+    case 'HealthCheck':
+      const healthCheckEntry = {
+        ...e,
+        type: 'HealthCheck',
+        healthCheckRating: parseHealthCheckRating(getProp(entry, 'healthCheckRating'))
+      };
+
+      return healthCheckEntry as NewEntry;
+    case 'Hospital':
+      const hospitalEntry = {
+        ...e,
+        type: 'Hospital',
+        discharge: parseDischarge(getProp(entry, 'discharge')),
+      };
+
+      return hospitalEntry as NewEntry;
+    case 'OccupationalHealthcare':
+      const occupationalHealthcareEntry = {
+        ...e,
+        type: 'OccupationalHealthcare',
+        employerName: parseEmployerName(getProp(entry, 'employerName')),
+        sickLeave: parseSickLeave(getProp(entry, 'sickLeave', true))
+      };
+
+      return occupationalHealthcareEntry as NewEntry;
+  }
+};
+
 const parseEntries = (arr: unknown): Entry[] => {
   if(!arr || !isObjectArray(arr)) {
     throw new Error('Incorrect or missing entries');
@@ -242,4 +285,14 @@ export const toNewPatient = (body: unknown): NewPatientData => {
   const patientData = parseNewPatient({ ...body });
 
   return patientData;
+};
+
+export const toNewEntry = (body: unknown): NewEntry => {
+  if(!body || !isObject(body)) {
+    throw new Error('Missing or malformed request body');
+  }
+
+  const entryData = parseNewEntry({ ...body });
+
+  return entryData;
 };

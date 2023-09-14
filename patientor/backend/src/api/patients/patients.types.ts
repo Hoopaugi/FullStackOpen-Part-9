@@ -62,3 +62,5 @@ export interface PatientData {
 export type NonSensitivePatientData = Omit<PatientData, 'ssn' | 'entries'>;
 
 export type NewPatientData = Omit<PatientData, 'id' | 'entries'>;
+
+export type NewEntry = Omit<Entry, 'id'>;

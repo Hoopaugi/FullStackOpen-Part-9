@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import patientsServices from "./patients.services";
-import { parseId, toNewPatient } from "./patients.utils";
+import { parseId, toNewPatient, toNewEntry } from "./patients.utils";
 
 export const getAll = (_req: Request, res: Response) => {
   const patients = patientsServices.getAllNonSensitive();
@@ -9,9 +9,9 @@ export const getAll = (_req: Request, res: Response) => {
   res.json(patients);
 };
 
-export const findById = (_req: Request, res: Response) => {
+export const findById = (req: Request, res: Response) => {
   try {
-    const id = parseId(_req.params.id);
+    const id = parseId(req.params.id);
 
     const patient = patientsServices.findById(id);
   
@@ -49,4 +49,24 @@ export const create = (req: Request, res: Response) => {
   }
 };
 
-export default { getAll, findById, create };
+export const createEntry = (req: Request, res: Response) => {
+  try {
+    const id = parseId(req.params.id);
+
+    const newEntryData = toNewEntry(req.body);
+
+    const newEntry = patientsServices.createEntry(id, newEntryData);
+  
+    res.json(newEntry);
+  } catch (error: unknown) {
+    let errorMessage = 'Something went wrong.';
+
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+
+    res.status(400).send(errorMessage);
+  }
+};
+
+export default { getAll, findById, create, createEntry };
