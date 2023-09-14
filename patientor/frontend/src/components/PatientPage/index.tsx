@@ -6,6 +6,7 @@ import TransgenderIcon from '@mui/icons-material/Transgender';
 
 import { Patient } from "../../types"
 import patientsServices from '../../services/patients'
+import Entries from "./Entires";
 
 const PatientPage = () => {
   const [patient, setPatient] = useState<Patient>()
@@ -34,6 +35,7 @@ const PatientPage = () => {
       <h2>{patient.name} {patient.gender === 'male' ? <MaleIcon /> : patient.gender === 'female' ? <FemaleIcon /> : <TransgenderIcon />}</h2>
       <p>ssn: {patient.ssn}</p>
       <p>occupation: {patient.occupation}</p>
+      <Entries entries={patient.entries}/>
     </>
   )
 }
